@@ -53,7 +53,7 @@ python combine.py
     - Les dossiers sont nommés selon la configuration: `<fonction d'activation>_hl=<liste des nombres de neurones par couche cachée>` et contiennent les fichiers `classification_plane.png` et `loss.png`
     - Une combinaison des résultats des différentes configurations est présente dans le dossier `models/combined` et est nommée `combined_<fonction d'activation>_classifications.png`.
     - Fonctions d'activation testées : sigmoid, relu et relu_normalized
-    - Taux d'apprentissage : dépend de la configuration.
+    - Taux d'apprentissage : Dépend de la configuration. Un early stopping est utilisé s'il n'y a pas d'amélioration de la loss sur 1000 époques.
 
 - Initialisation des poids :
     - Initialisation Xavier pour sigmoid : permet de maintenir la variance du signal à travers les couches
