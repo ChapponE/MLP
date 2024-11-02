@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Paramètre pour choisir le type d'activation
-activation_type = 'sigmoid'  # Changer en 'sigmoid' pour les architectures sigmoid
+activation_type = 'relu_normalized'  # Changer en 'sigmoid' pour les architectures sigmoid
 
 # Chemin vers le dossier models
 models_dir = 'models'

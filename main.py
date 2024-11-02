@@ -15,7 +15,11 @@ def main():
     # Détermination du dossier du modèle
     activation_func = CONFIG['activation_function']
     hidden_layers_sizes = CONFIG['layer_sizes'][1:-1]
-    model_dir = os.path.join('models', f"{activation_func}_hl={hidden_layers_sizes}")
+
+    # Ajout du suffixe 'normalized' si la normalisation est activée
+    normalized = '_normalized' if CONFIG['normalize_gradient'] else ''
+
+    model_dir = os.path.join('models', f"{activation_func}{normalized}_hl={hidden_layers_sizes}")
     os.makedirs(model_dir, exist_ok=True)
 
     # Entraînement du réseau

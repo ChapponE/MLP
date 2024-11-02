@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from layers import Layer
+from config import CONFIG
 
 class NeuralNetwork:
     def __init__(self, layer_sizes, activation_function='sigmoid'):
@@ -51,6 +52,13 @@ class NeuralNetwork:
                 next_layer = self.layers[i + 1]
                 layer.delta = np.dot(next_layer.weights.T, next_layer.delta) * layer.activation_derivative(layer.z)
 
+            # Normalisation du gradient si activée
+            if CONFIG['normalize_gradient']:
+                # Calcul de la norme du gradient
+                gradient_norm = np.linalg.norm(layer.delta)
+                if gradient_norm > 1:
+                    layer.delta = layer.delta / gradient_norm
+
     def update_weights(self, X, learning_rate):
         """
         Met à jour les poids et biais du réseau.
@@ -66,21 +74,36 @@ class NeuralNetwork:
         Entraîne le réseau de neurones, calcule la perte, et l'afffiche.
         """
         self.loss_history = []
-        self.training_data = (X, y) 
+        self.training_data = (X, y)
+        
+        # Variables pour l'early stopping
+        best_loss = float('inf')
+        patience = 1000  # Nombre d'époques sans amélioration avant arrêt
+        epochs_without_improvement = 0
+        
         for epoch in range(max_epochs):
-            # Rétropropagation
             self.backward(X, y)
-
-            # Mise à jour des poids
             self.update_weights(X, learning_rate)
-
-            # Calcul de la perte
+            
             loss = self.compute_loss(y, self.forward(X))
             self.loss_history.append(loss)
+            
             if epoch % 1000 == 0:
                 print(f"Époque {epoch}, Perte: {loss}")
 
-            # Critère d'arrêt
+            # Vérifier s'il y a une amélioration
+            if loss < best_loss - threshold:
+                best_loss = loss
+                epochs_without_improvement = 0
+            else:
+                epochs_without_improvement += 1
+                
+            # Early stopping si pas d'amélioration pendant 'patience' époques
+            if epochs_without_improvement >= patience:
+                print(f"Early stopping à l'époque {epoch}: pas d'amélioration depuis {patience} époques")
+                break
+                
+            # Arrêt si la perte est suffisamment faible
             if loss < threshold:
                 print(f"Convergence atteinte à l'époque {epoch}")
                 break
