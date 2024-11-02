@@ -3,9 +3,10 @@ import glob
 from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
+from config import CONFIG
 
 # Paramètre pour choisir le type d'activation
-activation_type = 'relu_normalized'  # Changer en 'sigmoid' pour les architectures sigmoid
+activation_type = CONFIG['ACTIVATION_FUNCTION']
 
 # Chemin vers le dossier models
 models_dir = 'models'
