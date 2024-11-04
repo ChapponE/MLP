@@ -39,6 +39,11 @@ pip install -r requirements.txt
 
 ## Exécution
 
+- Exécuter les tests unitaires avec la commande :
+```bash
+python -m unittest tests.py
+```
+
 - Exécuter avec autant de configurations que voulu le programme avec la commande :
 ```bash
 python main.py
